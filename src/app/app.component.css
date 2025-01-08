@@ -1,0 +1,92 @@
+
+
+
+main {
+  padding: 16px;
+  overflow: scroll;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+}
+
+h1 {
+  padding: 0 1rem;
+}
+
+h2 {padding: 1rem;}
+
+mat-toolbar{
+  position:fixed;
+  top:0;
+  z-index: 2;
+}
+
+mat-sidenav-container {
+  height: 100%;
+}
+
+/*mat-sidenav {*/
+/*  padding-top: 3.5rem;*/
+
+/*  .entry{*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    gap: 1rem;*/
+/*    padding:0.75rem;*/
+/*  }*/
+/*}*/
+
+@media screen and (min-width: 600px) {
+  mat-sidenav {
+    padding-top: 4rem;
+  }
+}
+
+mat-sidenav-content {
+  padding-top: 3.5rem;
+  @media screen and (min-width: 600px) {
+    padding-top: 4rem;
+  }
+}
+
+.expanded {
+  width: 250px;
+}
+
+.routerlink-item-active {
+  background: color-mix(in srgb, var(--mat-sys-primary) 10%, transparent);
+}
+
+mat-icon {
+  margin-right: 1rem;
+  color: var(--mat-sys-primary);
+}
+
+/* Set explicit width for collapsed state */
+mat-sidenav {
+  width: 250px; /* Expanded width */
+  transition: width 0.3s ease-in-out;
+  background: var(--mat-sys-background);
+}
+
+mat-sidenav.collapsed {
+  width: 60px; /* Collapsed width, adjust as needed */
+}
+
+mat-nav-list span.entry span {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateX(0);
+}
+
+mat-sidenav.collapsed mat-nav-list span.entry span {
+  opacity: 0; /* Hide text when collapsed */
+  transform: translateX(-10px); /* Slide out the text */
+}
+
+mat-sidenav.collapsed mat-nav-list span.entry mat-icon {
+  margin-right: 0; /* Optional: Adjust icon margin for a tighter look when collapsed */
+}

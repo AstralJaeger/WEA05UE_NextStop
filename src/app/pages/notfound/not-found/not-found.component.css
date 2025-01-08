@@ -1,0 +1,30 @@
+/* Center the text vertically and horizontally */
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  text-align: center; /* Ensure text is also centered */
+}
+
+/* Style for the h1 element */
+h1 {
+  font-size:  var(--mat-sys-display-large); /* Bigger font size */
+  font-weight: bold; /* Make it bold */
+  color: var(--mat-sys-primary); /* Use a red color to grab attention, or adjust to your theme */
+  margin: 1rem 0; /* Add some spacing around */
+}
+
+/* Style for h2 (optional) */
+h2 {
+  font-size: var(--mat-sys-display-medium);
+  margin-bottom: 1rem;
+  color: var(--mat-sys-secondary); /* A subtle color for less prominence */
+}
+
+/* Style for p (optional) */
+p {
+  font-size: var(--mat-sys-body-large);
+  color: var(--mat-sys-secondary); /* A light gray for extra text */
+}
