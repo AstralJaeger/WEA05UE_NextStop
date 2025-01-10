@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {RouterLink, RouterOutlet} from '@angular/router';
 import {MatToolbar} from '@angular/material/toolbar';
 import {MatIcon} from '@angular/material/icon';
 import {MatSidenav, MatSidenavContainer, MatSidenavContent} from '@angular/material/sidenav';
@@ -12,7 +12,7 @@ import {MatIconButton} from '@angular/material/button';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  imports: [RouterOutlet, MatToolbar, MatIcon, MatSidenavContainer, MatSidenavContent, MatSidenav, MatNavList, MatListItem, NgIf, MatIconButton, NgClass, RouterLink, RouterLinkActive],
+  imports: [RouterOutlet, MatToolbar, MatIcon, MatSidenavContainer, MatSidenavContent, MatSidenav, MatNavList, MatListItem, NgIf, MatIconButton, NgClass, RouterLink],
 })
 export class AppComponent implements OnInit {
   title = 'NextStop';

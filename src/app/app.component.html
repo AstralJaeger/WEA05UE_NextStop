@@ -20,7 +20,7 @@
 
       @for (page of pages; track page.title) {
         <mat-nav-list>
-          <a mat-list-item [routerLink]="page.route" routerLinkActive="nav-item-active">
+          <a mat-list-item [routerLink]="page.route">
           <span class="entry">
             <mat-icon>{{ page.icon }}</mat-icon>
             @if (!isCollapsed) {
