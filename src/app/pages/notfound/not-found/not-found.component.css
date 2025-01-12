@@ -10,7 +10,7 @@
 
 /* Style for the h1 element */
 h1 {
-  font-size:  var(--mat-sys-display-large); /* Bigger font size */
+  font-size: var(--mat-sys-display-large); /* Bigger font size */
   font-weight: bold; /* Make it bold */
   color: var(--mat-sys-primary); /* Use a red color to grab attention, or adjust to your theme */
   margin: 1rem 0; /* Add some spacing around */

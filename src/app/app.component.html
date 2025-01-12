@@ -1,42 +1,44 @@
-
 <mat-toolbar color="primary">
-  <button class="mr-4" mat-icon-button aria-label="Menu icon" (click)="onMenuClick()" >
+  <button class="mr-4" mat-icon-button aria-label="Menu icon" (click)="onMenuClick()">
     <mat-icon>menu</mat-icon>
   </button>
-  <h1>{{title}}</h1>
+  <h1>{{ title }}</h1>
 </mat-toolbar>
 
 <mat-sidenav-container autosize>
-  <mat-sidenav [ngClass]="{'expanded': !isCollapsed, 'collapsed': isCollapsed}" [mode]="isMobile ? 'over' : 'side'" [opened]="isMobile ? 'true' : 'false'" >
+  <mat-sidenav
+    [ngClass]="{ expanded: !isCollapsed, collapsed: isCollapsed }"
+    [mode]="isMobile ? 'over' : 'side'"
+    [opened]="isMobile ? 'true' : 'false'"
+  >
+    @if (true) {
+      <mat-nav-list>
+        <a mat-list-item (click)="onLoginClick()">
+          <span class="entry">
+            <mat-icon color="secondary">account_circle</mat-icon>
+            <span *ngIf="!isCollapsed">Login</span>
+          </span>
+        </a>
+      </mat-nav-list>
+    }
 
-    <mat-nav-list>
-      <a mat-list-item>
-        <span class="entry">
-          <mat-icon color="secondary">account_circle</mat-icon>
-          <span *ngIf="!isCollapsed">Login</span>
-        </span>
-      </a>
-    </mat-nav-list>
-
-      @for (page of pages; track page.title) {
-        <mat-nav-list>
-          <a mat-list-item [routerLink]="page.route">
+    @for (page of getPages(); track page) {
+      <mat-nav-list>
+        <a mat-list-item [routerLink]="page.route">
           <span class="entry">
             <mat-icon>{{ page.icon }}</mat-icon>
             @if (!isCollapsed) {
               <span>{{ page.title }}</span>
             }
           </span>
-          </a>
-        </mat-nav-list>
-      }
-    </mat-sidenav>
+        </a>
+      </mat-nav-list>
+    }
+  </mat-sidenav>
 
   <mat-sidenav-content>
     <main>
       <router-outlet></router-outlet>
     </main>
   </mat-sidenav-content>
-
 </mat-sidenav-container>
-
