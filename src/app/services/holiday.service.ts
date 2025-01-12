@@ -1,15 +1,16 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Holiday } from '../models/holiday';
-import { API_BASE_URL } from '../config';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Holiday} from '../models/holiday';
+import {API_BASE_URL} from '../config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HolidayService {
-  private readonly endpoint = `${API_BASE_URL}/holidays`;
+  private readonly endpoint = `${API_BASE_URL}/Holiday`;
 
-  constructor(private readonly httpClient: HttpClient) {}
+  constructor(private readonly httpClient: HttpClient) {
+  }
 
   // create
   postHoliday(holiday: Holiday) {
@@ -23,11 +24,11 @@ export class HolidayService {
 
   // update
   putHoliday(holiday: Holiday) {
-    return this.httpClient.put<Holiday>(`${this.endpoint}/${holiday.id}`, holiday);
+    return this.httpClient.put<Holiday>(`${this.endpoint}/update/${holiday.id}`, holiday);
   }
 
   // delete
   deleteHoliday(id: number) {
-    return this.httpClient.delete<Holiday>(`${this.endpoint}/${id}`);
+    return this.httpClient.delete<Holiday>(`${this.endpoint}/delete/${id}`);
   }
 }

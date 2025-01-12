@@ -7,17 +7,19 @@ import {MatDialog} from '@angular/material/dialog';
 import {CreateHolidayDialogComponent} from '../components/create-holiday-dialog/create-holiday-dialog.component';
 import {MatPaginator} from '@angular/material/paginator';
 import {
-  MatCell,
+  MatCell, MatCellDef,
   MatColumnDef,
-  MatHeaderCell,
-  MatHeaderRow,
-  MatRow,
+  MatHeaderCell, MatHeaderCellDef,
+  MatHeaderRow, MatHeaderRowDef,
+  MatRow, MatRowDef,
   MatTable,
   MatTableDataSource
 } from '@angular/material/table';
 import {HolidayService} from '../../../services/holiday.service';
 import {DatePipe} from '@angular/common';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {HolidayTypePipePipe} from '../../../pipes/holiday-type-pipe.pipe';
+import {TableColumnDef} from '../../../models/utils';
 
 @Component({
   selector: 'app-holidays',
@@ -34,6 +36,11 @@ import {MatSnackBar} from '@angular/material/snack-bar';
     MatHeaderRow,
     MatRow,
     MatIconButton,
+    HolidayTypePipePipe,
+    MatCellDef,
+    MatHeaderCellDef,
+    MatHeaderRowDef,
+    MatRowDef
   ],
   templateUrl: './holidays.component.html',
   styleUrl: './holidays.component.css',
@@ -44,7 +51,7 @@ export class HolidaysComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  columns = [
+  columns: TableColumnDef<Holiday>[] = [
     {
       columnDef: 'name',
       header: 'Name',
@@ -66,14 +73,14 @@ export class HolidaysComponent implements OnInit, AfterViewInit {
     {
       columnDef: 'type',
       header: 'Type',
-      rowType: '',
+      rowType: 'hType',
       cell: (element: Holiday) => `${element.type}`,
     },
     {
       columnDef: 'actions',
       header: 'Actions',
       rowType: 'actions',
-      cell: () => '',
+      cell: (element: Holiday) => '',
     },
   ];
   displayedColumns = this.columns.map(c => c.columnDef);
@@ -96,25 +103,24 @@ export class HolidaysComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(CreateHolidayDialogComponent, {
       data: {},
     });
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('Done adding date');
-    });
+    dialogRef.afterClosed()
+      .subscribe(() => {
+        console.log('Done adding date');
+      });
   }
 
   fetchHolidays() {
-    this.holidayService.getHolidays().subscribe({
-      next: v => {
-        this.dataSource.data = v;
-      },
-      error: e => {
-        console.error('Error fetching Holidays: ', e);
-        this.dataSource.data = [];
-        this._snackBar.open('Error fetching Holiday', 'Close');
-      },
-      complete: () => {
-        console.debug('Finished loading Holidays');
-      },
-    });
+    this.holidayService.getHolidays()
+      .subscribe({
+        next: v => {
+          this.dataSource.data = v;
+        },
+        error: e => {
+          console.error('Error fetching Holidays: ', e);
+          this.dataSource.data = [];
+          this._snackBar.open('Error fetching Holiday', 'Close');
+        }
+      });
   }
 
   deleteHoliday(holiday: Holiday): void {
@@ -126,7 +132,7 @@ export class HolidaysComponent implements OnInit, AfterViewInit {
       next: () => {
         console.log('Success');
         this.dataSource.data.splice(index, 1);
-        this.dataSource.data = [...this.dataSource.data];
+        this.dataSource.data = [...this.dataSource.data]; // trigger reload
       },
       error: e => {
         console.error(e);

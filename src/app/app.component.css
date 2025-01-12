@@ -61,9 +61,8 @@ mat-nav-list span.entry span {
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
+  transition: opacity 0.3s ease,
+  transform 0.3s ease;
   transform: translateX(0);
 }
 
@@ -74,4 +73,14 @@ mat-sidenav.collapsed mat-nav-list span.entry span {
 
 mat-sidenav.collapsed mat-nav-list span.entry mat-icon {
   margin-right: 0;
+}
+
+.entry {
+  display: flex; /* Enables flexbox */
+  align-items: center; /* Aligns items vertically centered */
+  gap: 8px; /* Adds spacing between the image and text */
+}
+
+img { /* Optional: Customize image size */
+  display: block; /* Removes extra space below the image */
 }

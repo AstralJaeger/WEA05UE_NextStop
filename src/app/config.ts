@@ -1,5 +1,5 @@
 // API base endpoint, change for different backends
-export const API_BASE_URL = 'http://localhost:3000/api';
+export const API_BASE_URL = 'http://localhost:5158/api';
 
 export const AUTH_CONFIG = {
   issuer: 'http://localhost:8090/realms/nextstop',
@@ -15,7 +15,7 @@ export const AUTH_CONFIG = {
   silentRefreshTimeout: 5000,
   timeoutFactor: 0.25,
   sessionChecksEnabled: true,
-  showDebugInformation: true,
+  showDebugInformation: false,
   clearHashAfterLogin: true,
   responseType: 'code',
   disableAtHashCheck: true,
