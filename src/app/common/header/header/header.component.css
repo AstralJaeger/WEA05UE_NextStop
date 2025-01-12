@@ -1,0 +1,16 @@
+.header-container {
+  padding: var(--mat-sys-body-small-line-height);
+  background-color: var(--mat-sys-primary);
+  color: white;
+  box-shadow: var(--mat-sys-level1);
+}
+
+/*.header-icon {*/
+/*  margin-right: 16px;*/
+/*}*/
+
+.header-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0;
+}
