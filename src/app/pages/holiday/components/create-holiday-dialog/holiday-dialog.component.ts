@@ -1,6 +1,5 @@
 import {Component, EventEmitter, inject, Input, OnInit, Output} from '@angular/core';
 import {
-  MAT_DIALOG_DATA,
   MatDialogActions,
   MatDialogContent,
   MatDialogRef,
@@ -17,7 +16,6 @@ import {HolidayService} from '../../../../services/holiday.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {NgIf} from '@angular/common';
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
-import {MatSlideToggle} from '@angular/material/slide-toggle';
 import {MatCheckbox} from '@angular/material/checkbox';
 
 @Component({

@@ -1,16 +1,13 @@
 import {ApplicationConfig, provideZoneChangeDetection} from '@angular/core';
 import {provideRouter} from '@angular/router';
 
-import {AUTHORITY, REALM_ID, CLIENT_ID} from './config'
 import {routes} from './app.routes';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {provideHttpClient} from '@angular/common/http';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import {
   createInterceptorCondition,
-  INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
-  IncludeBearerTokenCondition,
-  provideKeycloak
+  IncludeBearerTokenCondition
 } from 'keycloak-angular';
 
 const urlCondition = createInterceptorCondition<IncludeBearerTokenCondition>({

@@ -17,7 +17,6 @@ import {TableColumnDef} from '../../../models/utils';
 import {DatePipe} from '@angular/common';
 import {StopsService} from '../../../services/stops.service';
 import {MatDialog} from '@angular/material/dialog';
-import {ConfirmationDialogComponent} from '../../../common/confirmation-dialog/confirmation-dialog.component';
 import {StopDialogComponent} from '../components/stop-dialog/stop-dialog.component';
 
 @Component({

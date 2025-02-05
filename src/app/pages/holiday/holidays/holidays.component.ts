@@ -18,7 +18,6 @@ import {
 import {HolidayService} from '../../../services/holiday.service';
 import {DatePipe} from '@angular/common';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {HolidayTypePipePipe} from '../../../pipes/holiday-type-pipe.pipe';
 import {TableColumnDef} from '../../../models/utils';
 import {ConfirmationDialogComponent} from '../../../common/confirmation-dialog/confirmation-dialog.component';
 
