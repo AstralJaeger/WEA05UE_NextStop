@@ -1,0 +1,45 @@
+<div class="m-2 min-w-lg">
+  <h2 mat-dialog-title>Create Holiday</h2>
+  <mat-dialog-content>
+    <form [formGroup]="form" class="flex flex-col">
+      <mat-form-field class="m-2">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name">
+        <mat-error *ngIf="form.controls['name']?.hasError('required')">Name is required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="m-2">
+        <mat-label>Start Date</mat-label>
+        <input matInput [matDatepicker]="startpicker" formControlName="startDate"/>
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="startpicker"></mat-datepicker-toggle>
+        <mat-datepicker #startpicker></mat-datepicker>
+        <mat-error *ngIf="form.controls['startDate']?.hasError('required')"> Start date is required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="m-2">
+        <mat-label>End Date</mat-label>
+        <input matInput [matDatepicker]="endpicker" formControlName="endDate"/>
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="endpicker"></mat-datepicker-toggle>
+        <mat-datepicker #endpicker></mat-datepicker>
+        <mat-error *ngIf="form.controls['endDate']?.hasError('required')">End date is required</mat-error>
+        <mat-error *ngIf="form.errors?.['invalidDateRange']">End date cannot be before the start date.</mat-error>
+      </mat-form-field>
+      
+      <mat-checkbox class="my-2" labelPosition="before" formControlName="schoolholiday">
+        School Holiday
+      </mat-checkbox>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button class="m-2" (click)="onCancel()">
+      <mat-icon> cancel</mat-icon>
+      Cancel
+    </button>
+    <button mat-button class="m-2" (click)="onConfirm()">
+      <mat-icon> check</mat-icon>
+      Ok
+    </button>
+  </mat-dialog-actions>
+</div>

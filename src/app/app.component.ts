@@ -5,11 +5,10 @@ import {MatIcon} from '@angular/material/icon';
 import {MatSidenav, MatSidenavContainer, MatSidenavContent} from '@angular/material/sidenav';
 import {MatListItem, MatNavList} from '@angular/material/list';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import {NgClass, NgIf} from '@angular/common';
+import {NgClass} from '@angular/common';
 import {MatIconButton} from '@angular/material/button';
-import {AuthenticationService} from './services/authentication.service';
 import {Page} from './models/utils';
-import {GravatarDirective} from './gravatar.directive';
+import {pages} from './pages'
 
 const RETURN_URL_PARAM = 'returnUrl';
 
@@ -26,11 +25,9 @@ const RETURN_URL_PARAM = 'returnUrl';
     MatSidenav,
     MatNavList,
     MatListItem,
-    NgIf,
     MatIconButton,
     NgClass,
     RouterLink,
-    GravatarDirective,
   ],
 })
 export class AppComponent implements OnInit {
@@ -43,51 +40,9 @@ export class AppComponent implements OnInit {
   isCollapsed = true;
 
   returnTo = '';
-  isAuthenticated = false;
-
-  pages: Page[] = [
-    {
-      title: 'Stops',
-      icon: 'home',
-      route: '/stops',
-      requiresAuthentication: true,
-    },
-    {
-      title: 'Routes',
-      icon: 'departure_board',
-      route: '/routes',
-      requiresAuthentication: true,
-    },
-    {
-      title: 'Holidays',
-      icon: 'airplanemode_active',
-      route: '/holidays',
-      requiresAuthentication: true,
-    },
-    {
-      title: 'Stats',
-      icon: 'bar_chart',
-      route: '/stats',
-      requiresAuthentication: true,
-    },
-    {
-      title: 'Find Route',
-      icon: 'navigation',
-      route: '/navigation',
-      requiresAuthentication: false,
-    },
-    {
-      title: 'Station',
-      icon: 'train',
-      route: '/station',
-      requiresAuthentication: false,
-    },
-  ];
-  userMail: string = '';
 
   constructor(
     private readonly observer: BreakpointObserver,
-    private readonly auth: AuthenticationService,
     private readonly router: Router,
     private readonly route: ActivatedRoute
   ) {
@@ -102,11 +57,6 @@ export class AppComponent implements OnInit {
       console.log('isMobile', this.isMobile);
     });
 
-    this.auth.configureAuth().then(() => {
-      this.isAuthenticated = this.auth.isAuthenticated();
-      this.userMail = this.auth.getUserEmail();
-    });
-
     this.route.queryParams.subscribe(params => {
       this.returnTo = params[RETURN_URL_PARAM] || '/';
     });
@@ -114,16 +64,6 @@ export class AppComponent implements OnInit {
 
   onMenuClick() {
     this.toggleSidenav();
-  }
-
-  onLoginClick() {
-    console.log('onLoginClick');
-    this.auth.login();
-  }
-
-  onLogoutClick() {
-    console.log('onLogoutClick');
-    this.auth.logout();
   }
 
   toggleSidenav() {
@@ -137,6 +77,6 @@ export class AppComponent implements OnInit {
   }
 
   getPages(): Page[] {
-    return this.pages.filter(p => p.requiresAuthentication && this.isAuthenticated || !p.requiresAuthentication);
+    return pages;
   }
 }

@@ -4,7 +4,7 @@ import {Holiday} from '../../../models/holiday';
 import {MatIcon} from '@angular/material/icon';
 import {MatFabButton, MatIconButton} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
-import {CreateHolidayDialogComponent} from '../components/create-holiday-dialog/create-holiday-dialog.component';
+import {HolidayDialogComponent} from '../components/create-holiday-dialog/holiday-dialog.component';
 import {MatPaginator} from '@angular/material/paginator';
 import {
   MatCell, MatCellDef,
@@ -20,6 +20,7 @@ import {DatePipe} from '@angular/common';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {HolidayTypePipePipe} from '../../../pipes/holiday-type-pipe.pipe';
 import {TableColumnDef} from '../../../models/utils';
+import {ConfirmationDialogComponent} from '../../../common/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-holidays',
@@ -36,7 +37,6 @@ import {TableColumnDef} from '../../../models/utils';
     MatHeaderRow,
     MatRow,
     MatIconButton,
-    HolidayTypePipePipe,
     MatCellDef,
     MatHeaderCellDef,
     MatHeaderRowDef,
@@ -72,9 +72,9 @@ export class HolidaysComponent implements OnInit, AfterViewInit {
     },
     {
       columnDef: 'type',
-      header: 'Type',
+      header: 'School Holiday',
       rowType: 'hType',
-      cell: (element: Holiday) => `${element.type}`,
+      cell: (element: Holiday) => `${element.isSchoolHoliday}`,
     },
     {
       columnDef: 'actions',
@@ -100,7 +100,7 @@ export class HolidaysComponent implements OnInit, AfterViewInit {
 
   onCreateHolidayBtnClick(): void {
     console.log('onCreateHolidaybtnClick clicked');
-    const dialogRef = this.dialog.open(CreateHolidayDialogComponent, {
+    const dialogRef = this.dialog.open(HolidayDialogComponent, {
       data: {},
     });
     dialogRef.afterClosed()
@@ -123,21 +123,42 @@ export class HolidaysComponent implements OnInit, AfterViewInit {
       });
   }
 
-  deleteHoliday(holiday: Holiday): void {
-    const index = this.dataSource.data.findIndex(h => h.id === holiday.id);
-    if (index < 0) {
-      return;
-    }
-    this.holidayService.deleteHoliday(holiday.id).subscribe({
-      next: () => {
-        console.log('Success');
-        this.dataSource.data.splice(index, 1);
-        this.dataSource.data = [...this.dataSource.data]; // trigger reload
-      },
-      error: e => {
-        console.error(e);
-        this._snackBar.open('Error deleting Holiday', 'Close');
-      },
+  updateHoliday(holiday: Holiday): void {
+    const dialogRef = this.dialog.open(HolidayDialogComponent, {
+      data: {holiday},
     });
+    const instance = dialogRef.componentInstance;
+    instance.holiday = holiday;
+    instance.holidayChanged.subscribe(() => {
+      this.fetchHolidays()
+    });
+  }
+
+  deleteHoliday(holiday: Holiday): void {
+    this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: "Are you sure you would like to delete?",
+        onConfirm: () => {
+          const index = this.dataSource.data.findIndex(h => h.id === holiday.id);
+          if (index < 0) {
+            return;
+          }
+          this.holidayService.deleteHoliday(holiday.id).subscribe({
+            next: () => {
+              console.log('Success');
+              this.dataSource.data.splice(index, 1);
+              this.dataSource.data = [...this.dataSource.data]; // trigger reload
+            },
+            error: e => {
+              console.error(e);
+              this._snackBar.open('Error deleting Holiday', 'Close');
+            },
+          });
+        },
+        onCancel: () => {
+          console.log("user canceled delete");
+        }
+      }
+    })
   }
 }

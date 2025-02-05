@@ -7,7 +7,7 @@ import {API_BASE_URL} from '../config';
   providedIn: 'root',
 })
 export class HolidayService {
-  private readonly endpoint = `${API_BASE_URL}/Holiday`;
+  private readonly endpoint = `${API_BASE_URL}/holidays`;
 
   constructor(private readonly httpClient: HttpClient) {
   }
@@ -24,11 +24,11 @@ export class HolidayService {
 
   // update
   putHoliday(holiday: Holiday) {
-    return this.httpClient.put<Holiday>(`${this.endpoint}/update/${holiday.id}`, holiday);
+    return this.httpClient.put<Holiday>(`${this.endpoint}/${holiday.id}`, holiday);
   }
 
   // delete
   deleteHoliday(id: number) {
-    return this.httpClient.delete<Holiday>(`${this.endpoint}/delete/${id}`);
+    return this.httpClient.delete<Holiday>(`${this.endpoint}/${id}`);
   }
 }

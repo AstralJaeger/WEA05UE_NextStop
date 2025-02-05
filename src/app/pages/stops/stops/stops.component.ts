@@ -11,32 +11,31 @@ import {
   MatHeaderRowDef, MatRow, MatRowDef, MatTable,
   MatTableDataSource
 } from '@angular/material/table';
-import {StopPoint} from '../../../models/stoppoints';
+import {Stop} from '../../../models/stoppoints';
 import {MatPaginator} from '@angular/material/paginator';
 import {TableColumnDef} from '../../../models/utils';
 import {DatePipe} from '@angular/common';
-import {HolidayTypePipePipe} from '../../../pipes/holiday-type-pipe.pipe';
 import {StopsService} from '../../../services/stops.service';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {CreateStoppointDialogComponent} from '../components/create-stoppoint-dialog/create-stoppoint-dialog.component';
-import {UpdateStoppointDialogComponent} from '../components/update-stoppoint-dialog/update-stoppoint-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {ConfirmationDialogComponent} from '../../../common/confirmation-dialog/confirmation-dialog.component';
+import {StopDialogComponent} from '../components/stop-dialog/stop-dialog.component';
 
 @Component({
   selector: 'app-stops',
-  imports: [HeaderComponent, MatFabButton, MatIcon, DatePipe, HolidayTypePipePipe, MatCell, MatCellDef, MatHeaderCell, MatHeaderRow, MatHeaderRowDef, MatIconButton, MatPaginator, MatRow, MatRowDef, MatTable, MatColumnDef, MatHeaderCellDef],
+  imports: [HeaderComponent, MatFabButton, MatIcon, DatePipe, MatCell, MatCellDef, MatHeaderCell, MatHeaderRow, MatHeaderRowDef, MatIconButton, MatPaginator, MatRow, MatRowDef, MatTable, MatColumnDef, MatHeaderCellDef],
   templateUrl: './stops.component.html',
   styleUrl: './stops.component.css',
 })
 export class StopsComponent implements OnInit {
-  private readonly createDialog = inject(MatDialog);
-  private readonly updateDialog = inject(MatDialog);
+  private readonly dialog = inject(MatDialog);
 
   private readonly _snackBar = inject(MatSnackBar);
-  dataSource = new MatTableDataSource<StopPoint>([]);
+  dataSource = new MatTableDataSource<Stop>([]);
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatPaginator)
+  readonly paginator!: MatPaginator;
 
-  columns: TableColumnDef<StopPoint>[] = [
+  columns: TableColumnDef<Stop>[] = [
     {
       columnDef: "name",
       header: "Name",
@@ -54,8 +53,8 @@ export class StopsComponent implements OnInit {
       header: "Coordinates",
       rowType: "",
       cell: element => {
-        if (element?.location.latitude && element.location?.longitude) {
-          return `${element.location.latitude?.toFixed(4)}, ${element.location.longitude?.toFixed(4)}`
+        if (element?.latitude && element.longitude) {
+          return `${element.latitude.toFixed(4)}, ${element.longitude.toFixed(4)}`
         }
         return '';
       }
@@ -81,11 +80,11 @@ export class StopsComponent implements OnInit {
   }
 
   onCreateStopBtnClick() {
-    const dialogRef = this.createDialog.open(CreateStoppointDialogComponent, {
+    console.log("OnCreateStop")
+    const dialogRef = this.dialog.open(StopDialogComponent, {
       data: {},
     });
-    dialogRef.afterClosed()
-      .subscribe(() => console.log("Done."))
+    dialogRef.componentInstance.stopChanged.subscribe(() => this.fetchStops());
   }
 
   fetchStops() {
@@ -102,26 +101,14 @@ export class StopsComponent implements OnInit {
     )
   }
 
-  deleteStop(stopPoint: StopPoint) {
-    const index = this.dataSource.data.findIndex(sp => sp.id == stopPoint.id);
-    if (index < 0) return;
-    this.stopsService.deleteStopPoint(stopPoint.id).subscribe({
-      next: () => {
-        this.dataSource.data.splice(index, 1);
-        this.dataSource.data = [...this.dataSource.data]; // trigger reload
-      },
-      error: e => {
-        console.error("error deleting stoppoint: ", e)
-        this._snackBar.open("Error deleting Stop", 'Close')
-      }
-    })
-  }
-
-  updateStop(stopPoint: StopPoint) {
-    const dialogRef = this.updateDialog.open(UpdateStoppointDialogComponent, {
-      data: {stopPointId: stopPoint.id},
+  updateStop(stop: Stop) {
+    console.log("OnUpdateStop")
+    const dialogRef = this.dialog.open(StopDialogComponent, {
+      data: {stop},
     });
-    dialogRef.afterClosed()
-      .subscribe(() => console.log("Done."))
+
+    const instance = dialogRef.componentInstance;
+    instance.stop = stop;
+    instance.stopChanged.subscribe(() => this.fetchStops());
   }
 }

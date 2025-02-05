@@ -11,25 +11,6 @@
     [mode]="isMobile ? 'over' : 'side'"
     [opened]="isMobile ? 'true' : 'false'"
   >
-    @if (isAuthenticated) {
-      <mat-nav-list>
-        <a mat-list-item (click)="onLogoutClick()">
-          <span class="entry">
-            <img class="size-6 rounded-full" alt="" appGravatar [email]="this.userMail" src="">
-            <span *ngIf="!isCollapsed">Logout</span>
-          </span>
-        </a>
-      </mat-nav-list>
-    } @else {
-      <mat-nav-list>
-        <a mat-list-item (click)="onLoginClick()">
-          <span class="entry">
-            <mat-icon color="secondary">account_circle</mat-icon>
-            <span *ngIf="!isCollapsed">Login</span>
-          </span>
-        </a>
-      </mat-nav-list>
-    }
 
     @for (page of getPages(); track page) {
       <mat-nav-list>
