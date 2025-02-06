@@ -1,10 +1,74 @@
-<div>
+<div class="flex flex-col routescontainer">
   <app-header title="Route Management" icon="departure_board"></app-header>
 
-  <button mat-fab extended class="m-2">
+  <button mat-fab extended class="m-2" (click)="onCreateRouteBtnClick()">
     <mat-icon class="mr-2">add</mat-icon>
     Create new route
   </button>
 
+
+  <div class="my-2 flex flex-col">
+    <h2 class="m-2 text-2xl">Existing Stops</h2>
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+      @for (column of columns; track column) {
+        <ng-container [matColumnDef]="column.columnDef">
+          <mat-header-cell *matHeaderCellDef>
+            {{ column.header }}
+          </mat-header-cell>
+
+          @switch (column.rowType) {
+            @case ('number') {
+              <mat-cell *matCellDef="let row">
+                {{ column.cell(row) }}
+              </mat-cell>
+            }
+            @case ('valid') {
+              <mat-cell *matCellDef="let row">
+                {{ column.cell(row) }}
+              </mat-cell>
+            }
+            @case ('days_of_operation') {
+              <mat-cell *matCellDef="let row">
+                {{ column.cell(row) }}
+              </mat-cell>
+            }
+            @case ('start_stop') {
+              <mat-cell *matCellDef="let row">
+                {{ column.cell(row) }}
+              </mat-cell>
+            }
+            @case ('end_stop') {
+              <mat-cell *matCellDef="let row">
+                {{ column.cell(row) }}
+              </mat-cell>
+            }
+            @case ('actions') {
+              <ng-container>
+                <mat-cell *matCellDef="let row">
+                  <button mat-icon-button (click)="deleteRoute(row)" aria-label="Delete">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                  <button mat-icon-button (click)="updateRoute(row)" aria-label="Delete">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </mat-cell>
+              </ng-container>
+            }
+            @default {
+              <mat-cell *matCellDef="let row">
+                {{ column.cell(row) }}
+              </mat-cell>
+            }
+          }
+        </ng-container>
+      }
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"/>
+      <mat-row *matRowDef="let row; columns: displayedColumns"/>
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[10, 25, 50]"></mat-paginator>
+  </div>
 
 </div>

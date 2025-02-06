@@ -1,7 +1,7 @@
 import {Component, EventEmitter, inject, Input, OnInit, Output} from '@angular/core';
 import {
   MatDialogActions, MatDialogContent,
-  MatDialogRef
+  MatDialogRef, MatDialogTitle
 } from '@angular/material/dialog';
 import {Stop} from '../../../../models/stoppoints';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -12,7 +12,6 @@ import {MatIcon} from '@angular/material/icon';
 import {MatFormField, MatError, MatFormFieldModule} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
-import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-stop-dialog',
@@ -27,7 +26,8 @@ import {NgIf} from '@angular/common';
     MatFormFieldModule,
     ReactiveFormsModule,
     MatInput,
-    MatButton
+    MatButton,
+    MatDialogTitle
   ]
 })
 export class StopDialogComponent implements OnInit {
@@ -105,7 +105,9 @@ export class StopDialogComponent implements OnInit {
       },
       error: (err) => {
         console.error('Failed to create stop!', err);
-        this._snackbar.open('Error creating stop!', 'Close');
+        this._snackbar.open('Error creating stop!', 'Close', {
+          duration: 3000
+        });
       },
     });
   }

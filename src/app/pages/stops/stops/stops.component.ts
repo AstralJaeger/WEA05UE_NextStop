@@ -1,4 +1,4 @@
-import {Component, inject, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, inject, OnInit, ViewChild} from '@angular/core';
 import {HeaderComponent} from '../../../common/header/header/header.component';
 import {MatFabButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
@@ -25,7 +25,7 @@ import {StopDialogComponent} from '../components/stop-dialog/stop-dialog.compone
   templateUrl: './stops.component.html',
   styleUrl: './stops.component.css',
 })
-export class StopsComponent implements OnInit {
+export class StopsComponent implements OnInit, AfterViewInit {
   private readonly dialog = inject(MatDialog);
 
   private readonly _snackBar = inject(MatSnackBar);
@@ -71,7 +71,7 @@ export class StopsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.fetchStops()
+    this.fetchStops();
   }
 
   ngAfterViewInit() {
@@ -79,7 +79,6 @@ export class StopsComponent implements OnInit {
   }
 
   onCreateStopBtnClick() {
-    console.log("OnCreateStop")
     const dialogRef = this.dialog.open(StopDialogComponent, {
       data: {},
     });
