@@ -1,4 +1,48 @@
-<div>
-  <app-header title="Delay Statistics" icon="bar_chart"></app-header>
-  <p>stats works!</p>
+<div class="statscotainer">
+  <app-header title="Delay Statistics" icon="bar_chart" class="w-auto"></app-header>
+
+  <div>
+    <form [formGroup]="form" class="flex flex-col gap-2">
+      <mat-form-field class="m-2">
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="Start date" formControlName="startDate">
+          <input matEndDate placeholder="End date" formControlName="endDate">
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+
+      <button mat-raised-button class="m-2" color="primary" (click)="fetchStatistics()">
+        <mat-icon>refresh</mat-icon>
+        Refresh
+      </button>
+    </form>
+  </div>
+
+  @if (error()) {
+    <div class="m-2 gap-2 flex flex-row content-center">
+      <mat-icon color="warn">error</mat-icon>
+      <span>{{ error() }}</span>
+    </div>
+  }
+
+  @if (!loading() && !error()) {
+  <div class="m-2">
+    <canvas baseChart
+            class="min-w-96"
+            [data]="chartData()"
+            [options]="chartOptions"
+            chartType="bar">
+    </canvas>
+  </div>
+  }
+
+  @if (loading()) {
+    <div class="m-2">
+      <mat-spinner></mat-spinner>
+    </div>
+  }
+
 </div>

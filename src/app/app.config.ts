@@ -9,6 +9,7 @@ import {
   createInterceptorCondition,
   IncludeBearerTokenCondition
 } from 'keycloak-angular';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 const urlCondition = createInterceptorCondition<IncludeBearerTokenCondition>({
   urlPattern: /^(http:\/\/localhost:7084)(\/.*)?$/i,
@@ -22,6 +23,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideHttpClient(),
     provideNativeDateAdapter(),
+    provideCharts(withDefaultRegisterables()),
     // provideKeycloak({
     //   config: {
     //     url: AUTHORITY,

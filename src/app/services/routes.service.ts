@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {API_BASE_URL} from '../config';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {Route} from '../models/route';
+import { InsertRoute, Route } from '../models/route';
 import {Timetable} from '../models/timetable';
 
 @Injectable({
@@ -18,8 +18,8 @@ export class RoutesService {
     return this.httpClient.get<Route[]>(this.endpoint);
   }
 
-  postRoute(route: Route) {
-    return this.httpClient.post<Route>(this.endpoint, route);
+  postRoute(route: InsertRoute) {
+    return this.httpClient.post<InsertRoute>(this.endpoint, route);
   }
 
   putRoute(route: Route) {

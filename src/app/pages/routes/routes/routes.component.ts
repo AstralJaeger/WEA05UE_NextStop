@@ -109,22 +109,15 @@ export class RoutesComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  onCreateRouteBtnClick() {
-    const dialogRef = this.dialog.open(RouteDialogComponent, {
-      data: {}
-    });
-    dialogRef.componentInstance.routeChanged.subscribe(() => this.fetchRoutes());
-  }
-
-  fetchRoutes() {
+  private fetchRoutes() {
     this.routesService.getRoutes().subscribe({
       next: (v) => {
         this.dataSource.data = v;
-        for (let data of this.dataSource.data) {
-          for (let routestop of data.stops) {
-            this.stopsService.getStopPointById(routestop.stopId).subscribe({
+        for (const data of this.dataSource.data) {
+          for (const rs of data.stops) {
+            this.stopsService.getStopPointById(rs.stopId).subscribe({
               next: value => {
-                this.stopsCache.set(routestop.stopId, value);
+                this.stopsCache.set(rs.stopId, value);
               },
               error: err => {
                 console.warn('error fetching stop', err)
@@ -143,11 +136,21 @@ export class RoutesComponent implements OnInit, AfterViewInit {
     })
   }
 
-  updateRoute(route: Route) {
+  onCreateRouteBtnClick() {
     const dialogRef = this.dialog.open(RouteDialogComponent, {
-      data: {route}
+      data: {}
     });
     dialogRef.componentInstance.routeChanged.subscribe(() => this.fetchRoutes());
+  }
+
+  updateRoute(route: Route) {
+    console.dir("updateRoute", route)
+    const dialogRef = this.dialog.open(RouteDialogComponent, {
+      data: { route }
+    });
+    dialogRef.componentInstance.routeChanged.subscribe(() => {
+      this.fetchRoutes(); // backend doesn't support operation
+    });
   }
 
   deleteRoute(route: Route) {

@@ -47,33 +47,33 @@
         </button>
 
         <div *ngFor="let stop of stops.controls; let i = index" [formGroupName]="i">
-          <mat-form-field class="m-2">
-            <mat-label>Stop Id</mat-label>
-            <mat-select formControlName="stopId" class="w-64">
-              @for (stop of allStops; track stop) {
-                <mat-option [value]="stop.id">{{ stop.name }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
+          <div class="flex flex-row border-solid my-3">
+            <mat-form-field class="mx-1">
+              <mat-label>Stop Id</mat-label>
+              <mat-select formControlName="stopId">
+                <mat-option *ngFor="let stop of allStops" [value]="stop.id">{{ stop.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
 
-          <mat-form-field class="m-2">
-            <mat-label>Scheduled Departure Time</mat-label>
-            <input matInput [matTimepicker]="scheduledDepartureTime" formControlName="scheduledDepartureTime"/>
-            <mat-timepicker-toggle matIconSuffix [for]="scheduledDepartureTime"/>
-            <mat-timepicker #scheduledDepartureTime/>
-            <mat-error *ngIf="form.controls['scheduledDepartureTime']?.hasError('required')"> Scheduled Departuer Time
-              is required
-            </mat-error>
-          </mat-form-field>
+            <mat-form-field class="mx-1">
+              <mat-label>Dep. Time</mat-label>
+              <input matInput [matTimepicker]="scheduledDepartureTime" formControlName="scheduledDepartureTime"/>
+              <mat-timepicker-toggle matIconSuffix [for]="scheduledDepartureTime"/>
+              <mat-timepicker #scheduledDepartureTime/>
+              <mat-error *ngIf="stops.at(i).get('scheduledDepartureTime')?.hasError('required')"> Scheduled Departuer Time
+                is required
+              </mat-error>
+            </mat-form-field>
 
-          <ng-container>
-            <button mat-icon-button color="warn" type="button" (click)="upStop(i)">
-              <mat-icon>arrow_upward</mat-icon>
-            </button>
-            <button mat-icon-button color="warn" type="button" (click)="removeStop(i)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </ng-container>
+            <div class="flex flex-row content-start mx-1">
+              <button mat-icon-button color="warn" type="button" (click)="upStop(i)">
+                <mat-icon>arrow_upward</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" type="button" (click)="removeStop(i)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
